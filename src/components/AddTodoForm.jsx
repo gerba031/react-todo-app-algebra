@@ -1,6 +1,8 @@
 import { Component } from "react";
 import { Button, Form, FormControl, InputGroup } from "react-bootstrap";
 import PropTypes from "prop-types";
+import React from "react";
+
 
 export default class AddTodoForm extends Component {
 
@@ -8,10 +10,12 @@ export default class AddTodoForm extends Component {
         newItem: "",
     };
 
+    ref = React.createRef();
+
     handleChange = (evt) => {
-        const noviZadatak = evt.target.value;
-        console.log("setState -> " + noviZadatak)
-        this.setState({ noviZadatak });
+        const newItem = evt.target.value;
+        console.log("setState -> " + newItem)
+        this.setState({ newItem });
     }
 
     handleAddTodoClick = (event) => {
@@ -19,19 +23,22 @@ export default class AddTodoForm extends Component {
 
         //  console.log("test");
 
-        const {newItem} = this.state;
-        const {addTodo} = this.props;
+        const { newItem } = this.state;
+        const { addTodo } = this.props;
 
         addTodo(newItem);
 
-        this.setState({ newItem: ""})
+        this.setState({ newItem: "" });
+
+        this.ref.current.focus();
     }
 
     render() {
+        const { newItem } = this.state;
         return (
             <Form>
                 <InputGroup>
-                    <FormControl onChange={this.handleChange} />
+                    <FormControl onChange={this.handleChange} value={newItem} placeholder="dodaj zadatak" autoFocus ref={this.ref} />
                     <Button type="submit" onClick={this.handleAddTodoClick}>Dodaj</Button>
                 </InputGroup>
             </Form>

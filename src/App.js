@@ -3,6 +3,7 @@ import "./App.css";
 import VisibilityToolbar from "./components/VisibilityToolbar";
 import AddTodoForm from "./components/AddTodoForm";
 import { UniqueString, UniqueNumber, UniqueStringId,UniqueNumberId,UniqueOTP,UniqueCharOTP,HEXColor,uuid } from 'unique-string-generator';
+import TodoList from "./components/TodoList";
 
 
 
@@ -41,6 +42,7 @@ componentDidUpdate() {
         <header className="header">Moji zadaci</header>
         <VisibilityToolbar></VisibilityToolbar>
         <AddTodoForm addTodo={this.handleAddTodo}></AddTodoForm>
+        <TodoList></TodoList>
       </div>
     );
   }
