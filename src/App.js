@@ -46,17 +46,52 @@ class App extends Component {
 
   };
 
-  render() {
+  handleRemoveTodo = (id) => {
+    // console.log("handleRemoveTodo + " +id);
     const { todos } = this.state;
+    //console.log("count after: " + newTodos.length);
+    const newTodos = todos.filter((todo) => todo.id !== id);
+
+    this.setState({ todos: newTodos });
+  };
+
+  getVisibleTodos = ()=> {
+    
+
+  const {todos, visibility} = this.state;
+  if (visibility === "all"){
+    return todos;
+  }
+
+  if (visibility === "active") {
+    return todos.filter((todo)=> !todo.completed);
+  }
+
+  if (visibility === "completed") {
+    return todos.filter((todo)=> todo.completed);
+  }
+ 
+
+  }
+
+  render() {
+  const { todos } = this.state;
+
+    const visibleTodos = this.getVisibleTodos();
+
     return (
 
       <div className="App">
         <header className="header">Moji zadaci</header>
-        <VisibilityToolbar></VisibilityToolbar>
+        <VisibilityToolbar onVisibilityChange={this.handleVisibilityChange}></VisibilityToolbar>
 
         <div className="todoContainer">
           <AddTodoForm addTodo={this.handleAddTodo}></AddTodoForm>
-          <TodoList todos={todos} toggleTodo={this.handleToggleTodo}></TodoList>
+          <TodoList
+            todos={visibleTodos}
+            toggleTodo={this.handleToggleTodo}
+            removeTodo={this.handleRemoveTodo}
+          ></TodoList>
         </div>
 
       </div>
