@@ -55,29 +55,58 @@ class App extends Component {
     this.setState({ todos: newTodos });
   };
 
-  getVisibleTodos = ()=> {
+  getVisibleTodos = () => {
+
+
+    const { todos, visibility } = this.state;
+    if (visibility === "all") {
+      return todos;
+    }
+
+    if (visibility === "active") {
+      return todos.filter((todo) => !todo.completed);
+    }
+
+    if (visibility === "completed") {
+      return todos.filter((todo) => todo.completed);
+    }
+  };
+
+  handleRemoveCompleted = () => {
+    const { todos } = this.state;
+    /*  let todos = [
+        {id = 1. text = prvi zadatal; completed=false}
     
+        {d = 2. text = Jdrugi zadatal; completed=false}
+    
+      ];
+      */
 
-  const {todos, visibility} = this.state;
-  if (visibility === "all"){
-    return todos;
-  }
 
-  if (visibility === "active") {
-    return todos.filter((todo)=> !todo.completed);
-  }
+    let newTodos = todos.filter((todo) => !todo.completed);
 
-  if (visibility === "completed") {
-    return todos.filter((todo)=> todo.completed);
-  }
- 
-
-  }
+    this.setState({ todos: newTodos });
+  };
 
   render() {
-  const { todos } = this.state;
+    const { todos } = this.state;
 
     const visibleTodos = this.getVisibleTodos();
+
+    const hasCompleted = todos.filter((todo) => todo.completed).length > 0;
+
+    // 2.način preko for petlje
+    
+    /*let hasCompleted = false;
+    let brojac = 0;
+    for (let i=0; i<todos.length; i++) {
+      if (todos[i].completed ===true) {
+        brojac++;
+      }
+    }
+    if (brojac > 0 ){
+      hasCompleted = true;
+    }*/
 
     return (
 
@@ -92,7 +121,11 @@ class App extends Component {
             toggleTodo={this.handleToggleTodo}
             removeTodo={this.handleRemoveTodo}
           ></TodoList>
+
         </div>
+
+        {hasCompleted &&
+          <span className="btn-clear-all" onClick={this.handleRemoveCompleted}>Obriši dovršene</span>}
 
       </div>
     );
